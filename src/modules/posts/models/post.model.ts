@@ -7,17 +7,15 @@ import {
   BelongsTo,
 } from 'sequelize-typescript';
 
+import { User } from '../../users/user.model';
+
 import { Tag } from './tag.model';
 import { TagPost } from './tagPost.model';
-import { User } from '../../users/user.model';
 
 @Table({ tableName: 'Posts', timestamps: true, underscored: true })
 export class Post extends Model<Post> {
   @ForeignKey(() => User)
-  @Column({
-    allowNull: false,
-    unique: true,
-  })
+  @Column
   userId: number;
 
   @Column({ allowNull: false })

@@ -6,9 +6,7 @@ import { Tag } from './tag.model';
 @Table({ tableName: 'TagPosts', timestamps: true, underscored: true })
 export class TagPost extends Model<TagPost> {
   @ForeignKey(() => Post)
-  @Column({
-    unique: true,
-  })
+  @Column
   postId: string;
 
   @ForeignKey(() => Tag)
