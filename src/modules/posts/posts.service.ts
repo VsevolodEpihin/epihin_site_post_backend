@@ -1,10 +1,12 @@
 import { InjectModel } from '@nestjs/sequelize';
+import { Injectable } from '@nestjs/common';
 
 import { User } from '../users/user.model';
 
 import { Post } from './models/post.model';
 import { Tag } from './models/tag.model';
 
+@Injectable()
 export class PostsService {
   constructor(@InjectModel(Post) private postsRepository: typeof Post) {}
   getAllPosts() {

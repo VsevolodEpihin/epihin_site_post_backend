@@ -1,6 +1,7 @@
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+
 import { Post } from './modules/posts/models/post.model';
 import { PostsModule } from './modules/posts/posts.module';
 import { User } from './modules/users/user.model';
