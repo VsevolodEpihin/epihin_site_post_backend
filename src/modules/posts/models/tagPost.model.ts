@@ -10,8 +10,6 @@ export class TagPost extends Model<TagPost> {
   postId: string;
 
   @ForeignKey(() => Tag)
-  @Column({
-    unique: true,
-  })
+  @Column
   tagId: string;
 }
