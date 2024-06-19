@@ -7,9 +7,13 @@ import { PostsModule } from './modules/posts/posts.module';
 import { User } from './modules/users/user.model';
 import { TagPost } from './modules/posts/models/tagPost.model';
 import { Tag } from './modules/posts/models/tag.model';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/users/user.module';
+import { CustomJwtModule } from './modules/jwt/jwt.module';
 
 @Module({
   imports: [
+    AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -27,6 +31,9 @@ import { Tag } from './modules/posts/models/tag.model';
       }),
     }),
     PostsModule,
+    UserModule,
+    AuthModule,
+    CustomJwtModule,
   ],
 })
 export class AppModule {}
