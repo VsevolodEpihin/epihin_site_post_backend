@@ -3,23 +3,22 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { AuthError } from '../../common/constants/errors';
-import { UserLoginDto } from '../auth/dto/user-login.dto';
-import { UserService } from '../users/user.service';
+import { AuthService } from '../auth/auth.service';
+import { JwtToken } from '../../type/index';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    private readonly usersService: UserService,
-  ) {
+  constructor(private readonly authService:AuthService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET,
+      secretOrKey: process.env.JWT_EXPIRE,
     });
   }
 
-  async validate(payload: UserLoginDto) {
-    const user = await this.usersService.findUserByEmail(payload.email);
+  async validate({ id }: JwtToken) {
+    const user = await this.authService.findUserById(id);
+    console.log(user+'1')
     if (!user) throw new BadRequestException(AuthError.WRONG_DATA);
     return user;
   }
