@@ -1,25 +1,30 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
-import { AuthError } from '../../common/constants/errors';
 import { AuthService } from '../auth/auth.service';
 import { JwtToken } from '../../type/index';
+import { AuthError } from '../../common/constants/errors';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly authService:AuthService) {
+  constructor(
+      private readonly authService: AuthService,
+      configService: ConfigService
+    ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_EXPIRE,
+      secretOrKey: configService.get<string>('JWT_SECRET'),
     });
   }
 
-  async validate({ id }: JwtToken) {
-    const user = await this.authService.findUserById(id);
-    console.log(user+'1')
-    if (!user) throw new BadRequestException(AuthError.WRONG_DATA);
+  async validate(payload: JwtToken) {
+    const user = await this.authService.findUserById(payload.id);
+    if (user === null) {
+      throw new BadRequestException(AuthError.INVALID_TOKEN);
+    }
     return user;
   }
 }

@@ -1,11 +1,10 @@
-import { Body, Controller, Get, Post, Headers, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, Req } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 import { CreateUserDto } from '../users/dto/create-user.dto';
+import { User } from '../users/user.model';
 
 import { AuthService } from './auth.service';
-import { UserLoginDto } from './dto/user-login.dto';
-import { JwtAuthGuard } from '../jwt/jwt-auth.guard';
-import { LocalStrategy } from '../jwt/jwt.local.strategy';
 
 @Controller('auth')
 export class AuthController {
@@ -13,18 +12,18 @@ export class AuthController {
 
   @Post('register')
   register (@Body() dto: CreateUserDto) {
-    console.log(1)
     return this.authService.registerUsers(dto);
   }
 
+  @UseGuards(AuthGuard('local'))
   @Post('login')
-  login(@Body() dto: UserLoginDto) {
-    return this.authService.loginUser(dto);
+  login(@Req() req: Request & { user: User }) {
+    return this.authService.loginUser(req.user);
   }
 
-  @Get('whoAmI')
-  whoAmI(@Headers('Authorization') token: string) {
-    token = token.replace('Bearer ', '');
-    return this.authService.getUserFromToken(token);
+  @UseGuards(AuthGuard('jwt'))
+  @Get('who-am-i')
+  whoAmI(@Req() req: Request & { user: User }) {
+    return req.user;
   }
 }

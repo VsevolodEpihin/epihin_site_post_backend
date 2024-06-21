@@ -1,3 +1,3 @@
 export interface JwtToken{
-  id: number
+  id: number;
 }
