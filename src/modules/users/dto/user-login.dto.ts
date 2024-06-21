@@ -11,6 +11,5 @@ export class UserLoginDto {
 
   @IsNotEmpty()
   @IsString()
-  @Transform(createTransformParams)
   password: string;
 }

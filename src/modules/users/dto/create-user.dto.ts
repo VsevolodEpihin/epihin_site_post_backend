@@ -18,6 +18,5 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(6)
-  @Transform(createTransformParams)
   password: string;
 }
