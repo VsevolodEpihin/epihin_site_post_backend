@@ -1,1 +1,0 @@
-export const attributes = ['id','login','email','imageUrl','password'];
