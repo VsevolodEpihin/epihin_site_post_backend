@@ -7,6 +7,9 @@ import { PostsModule } from './modules/posts/posts.module';
 import { User } from './modules/users/user.model';
 import { TagPost } from './modules/posts/models/tagPost.model';
 import { Tag } from './modules/posts/models/tag.model';
+import { AuthModule } from './modules/auth/auth.module';
+import { CustomJwtModule } from './modules/jwt/jwt.module';
+import { UserModule } from './modules/users/user.module';
 
 @Module({
   imports: [
@@ -26,7 +29,10 @@ import { Tag } from './modules/posts/models/tag.model';
         models: [Post, User, TagPost, Tag],
       }),
     }),
+    UserModule,
     PostsModule,
+    AuthModule,
+    CustomJwtModule,
   ],
 })
 export class AppModule {}
